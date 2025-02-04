@@ -1,0 +1,46 @@
+defmodule AutoUpdater.Storage.S3 do
+  @behaviour AutoUpdater.Storage
+
+  @impl AutoUpdater.Storage
+  def desired_version() do
+    with {:ok, body} <- request(url: config()[:release_version_file]) do
+      {:ok, String.trim(body)}
+    end
+  end
+
+  @impl AutoUpdater.Storage
+  def download_release(version) when is_binary(version) do
+    local_path = temp_path!(Path.basename(version))
+
+    with {:ok, _} <- request(url: version, into: File.stream!(local_path)) do
+      {:ok, local_path}
+    end
+  end
+
+  def new(opts \\ []) when is_list(opts) do
+    Req.new(
+      aws_sigv4:
+        [service: :s3] ++ Keyword.take(config(), [:access_key_id, :secret_access_key, :region]),
+      base_url: config()[:endpoint],
+      retry: :transient
+    )
+    |> Req.merge(opts)
+  end
+
+  def request(opts \\ []) when is_list(opts) do
+    case Req.request(new(opts)) do
+      {:ok, %{status: 200, body: body}} -> {:ok, body}
+      {:ok, response} -> {:error, response}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def config() do
+    defaults = [region: "eu-central-1"]
+    Keyword.merge(defaults, Application.fetch_env!(:auto_updater, __MODULE__))
+  end
+
+  def temp_path!(suffix) when is_binary(suffix) do
+    Path.join(System.tmp_dir!(), "#{Enum.random(0..(2 ** 64))}-#{suffix}")
+  end
+end
