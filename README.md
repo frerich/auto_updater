@@ -2,6 +2,12 @@
 
 **TODO: Add description**
 
+## Requirements
+
+* Application running on Linux or macOS
+* Application is distributed as `.tar.gz` tarballs containing Mix releases as
+  created by [mix release](https://hexdocs.pm/mix/Mix.Tasks.Release.html).
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
