@@ -34,8 +34,8 @@ defmodule AutoUpdater.ReleaseWatcher do
         Logger.debug("Found new version #{desired_version}.")
         AutoUpdater.Deploy.deploy(desired_version)
 
-      {:error, _what} ->
-        Logger.warning("Failed to identify desired release version.")
+      {:error, what} ->
+        Logger.warning("Failed to identify desired release version: #{inspect what}")
     end
 
     Process.send_after(self(), :check_version, state[:polling_interval_ms])
