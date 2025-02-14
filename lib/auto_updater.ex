@@ -1,18 +1,13 @@
 defmodule AutoUpdater do
-  @moduledoc """
-  Documentation for `AutoUpdater`.
-  """
+  require Logger
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AutoUpdater.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def load_secrets() do
+    case AutoUpdater.Secrets.get_secrets() do
+      {:ok, secrets} ->
+        System.put_env(secrets)
+      {:error, reason} ->
+        Logger.warning("Failed to load secrets: #{reason}")
+        {:error, reason}
+    end
   end
 end
