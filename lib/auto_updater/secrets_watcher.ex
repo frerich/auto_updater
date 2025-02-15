@@ -36,7 +36,7 @@ defmodule AutoUpdater.SecretsWatcher do
         end
 
       {:error, what} ->
-        Logger.warning("Failed to fetch current secrets: #{inspect what}")
+        Logger.warning("Failed to fetch current secrets: #{inspect(what)}")
         Process.send_after(self(), :poll, state[:polling_interval_ms])
     end
 

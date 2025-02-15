@@ -8,6 +8,7 @@ defmodule AutoUpdater do
     case AutoUpdater.Secrets.get_secrets() do
       {:ok, secrets} ->
         System.put_env(secrets)
+
       {:error, reason} ->
         Logger.warning("Failed to load secrets: #{reason}")
         {:error, reason}
