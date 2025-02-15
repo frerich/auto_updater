@@ -9,7 +9,7 @@ defmodule AutoUpdater.Secrets.EncryptedJsonFile do
   def get_secrets do
     with {:ok, encrypted_data} <- fetch(),
          {:ok, decrypted_data} <- decrypt(encrypted_data) do
-      :json.decode(decrypted_data)
+      Jason.decode(decrypted_data)
     end
   end
 
