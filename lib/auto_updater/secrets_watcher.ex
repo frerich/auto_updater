@@ -11,13 +11,20 @@ defmodule AutoUpdater.SecretsWatcher do
   end
 
   def init(nil) do
-    polling_interval_ms =
-      Application.get_env(:auto_updater, :polling_interval_ms, :timer.seconds(5))
+    case validate_configuration() do
+      :ok ->
+        polling_interval_ms =
+          Application.get_env(:auto_updater, :polling_interval_ms, :timer.seconds(5))
 
-    Logger.info("Polling for new secrets every #{polling_interval_ms}ms.")
+        Logger.info("Polling for new secrets every #{polling_interval_ms}ms.")
 
-    Process.send_after(self(), :poll, polling_interval_ms)
-    {:ok, [polling_interval_ms: polling_interval_ms]}
+        Process.send_after(self(), :poll, polling_interval_ms)
+        {:ok, [polling_interval_ms: polling_interval_ms]}
+
+      {:error, reason} when is_binary(reason) ->
+        Logger.info("Disabling monitor of secrets: #{reason}")
+        :ignore
+    end
   end
 
   def handle_info(:poll, state) do
@@ -41,5 +48,12 @@ defmodule AutoUpdater.SecretsWatcher do
     end
 
     {:noreply, state}
+  end
+
+  def validate_configuration do
+    case Application.get_env(:auto_updater, :secrets) do
+      nil -> {:error, ":secrets not set"}
+      _ -> :ok
+    end
   end
 end
