@@ -1,8 +1,11 @@
 defmodule AutoUpdater.Storage.S3 do
+  @moduledoc """
+  Models a AWS S3 bucket as a release repository.
+  """
   @behaviour AutoUpdater.Storage
 
   @impl AutoUpdater.Storage
-  def desired_version() do
+  def desired_version do
     with {:ok, body} <- request(url: config()[:release_version_file]) do
       {:ok, String.trim(body)}
     end
@@ -35,7 +38,7 @@ defmodule AutoUpdater.Storage.S3 do
     end
   end
 
-  def config() do
+  def config do
     defaults = [region: "eu-central-1"]
     Keyword.merge(defaults, Application.fetch_env!(:auto_updater, __MODULE__))
   end

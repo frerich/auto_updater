@@ -1,4 +1,7 @@
 defmodule AutoUpdater.SecretsWatcher do
+  @moduledoc """
+  Periodically check for changed secrets and reload OTP applications if necessary.
+  """
   use GenServer
 
   require Logger

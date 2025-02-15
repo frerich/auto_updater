@@ -1,9 +1,12 @@
 defmodule AutoUpdater.Secrets.EncryptedJsonFile do
+  @moduledoc """
+  Fetch secrets from a AES-256 encrypted JSON file.
+  """
   @behaviour AutoUpdater.Secrets
 
   # To encrypt: 'openssl enc -aes-256-cbc -A -a -in /tmp/secrets.json -K '4040404040404040404040404040404040404040404040404040404040404040' -iv '40404040404040404040404040404040' -out /tmp/secrets.json.enc'
   @impl AutoUpdater.Secrets
-  def get_secrets() do
+  def get_secrets do
     with {:ok, encrypted_data} <- fetch(),
          {:ok, decrypted_data} <- decrypt(encrypted_data) do
       :json.decode(decrypted_data)
@@ -23,7 +26,7 @@ defmodule AutoUpdater.Secrets.EncryptedJsonFile do
     {:ok, decrypted_data}
   end
 
-  def fetch() do
+  def fetch do
     auth_header =
       if auth = config()[:authorization] do
         [{"authorization", auth}]
@@ -38,7 +41,7 @@ defmodule AutoUpdater.Secrets.EncryptedJsonFile do
     end
   end
 
-  def config() do
+  def config do
     :auto_updater
     |> Application.fetch_env!(__MODULE__)
     |> Keyword.validate!([:url, :authorization, :cipher, :iv, :key])

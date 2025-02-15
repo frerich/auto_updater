@@ -1,4 +1,7 @@
 defmodule AutoUpdater.Application do
+  @moduledoc """
+  Supervisor for AutoUpdater processes.
+  """
   use Application
 
   require Logger

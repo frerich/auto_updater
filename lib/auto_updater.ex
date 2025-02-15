@@ -1,7 +1,10 @@
 defmodule AutoUpdater do
+  @moduledoc """
+  Public AutoUpdater API.
+  """
   require Logger
 
-  def load_secrets() do
+  def load_secrets do
     case AutoUpdater.Secrets.get_secrets() do
       {:ok, secrets} ->
         System.put_env(secrets)

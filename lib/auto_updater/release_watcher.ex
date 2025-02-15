@@ -1,4 +1,7 @@
 defmodule AutoUpdater.ReleaseWatcher do
+  @moduledoc """
+  Periodically checks for new releases and triggers a deployment.
+  """
   use GenServer
 
   require Logger

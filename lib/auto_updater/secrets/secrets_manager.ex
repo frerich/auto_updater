@@ -1,8 +1,11 @@
 defmodule AutoUpdater.Secrets.SecretsManager do
+  @moduledoc """
+  Fetch secrets stored in AWS SecretsManager.
+  """
   @behaviour AutoUpdater.Secrets
 
   @impl AutoUpdater.Secrets
-  def get_secrets() do
+  def get_secrets do
     secret_id = config()[:secret_id]
 
     request(
@@ -34,7 +37,7 @@ defmodule AutoUpdater.Secrets.SecretsManager do
     |> Req.merge(opts)
   end
 
-  def config() do
+  def config do
     Application.fetch_env!(:auto_updater, __MODULE__)
   end
 end

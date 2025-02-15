@@ -1,4 +1,7 @@
 defmodule AutoUpdater.Deploy do
+  @moduledoc """
+  Functionality for deploying a new version.
+  """
   require Logger
 
   def deploy(desired_version) do
@@ -61,7 +64,7 @@ defmodule AutoUpdater.Deploy do
     :ok
   end
 
-  def restart() do
+  def restart do
     app_name = Application.fetch_env!(:auto_updater, :otp_app)
     script = Path.join([AutoUpdater.Installation.install_dir(), "bin", to_string(app_name)])
 

@@ -1,8 +1,11 @@
 defmodule AutoUpdater.Storage.GitHub do
+  @moduledoc """
+  Models releases of a GitHub project as a release repository.
+  """
   @behaviour AutoUpdater.Storage
 
   @impl AutoUpdater.Storage
-  def desired_version() do
+  def desired_version do
     with {:ok, body} <- request(url: "/releases/latest") do
       {:ok, to_string(body["id"])}
     end
@@ -57,7 +60,7 @@ defmodule AutoUpdater.Storage.GitHub do
     end
   end
 
-  def config() do
+  def config do
     Application.fetch_env!(:auto_updater, __MODULE__)
   end
 

@@ -1,8 +1,11 @@
 defmodule AutoUpdater.Storage.Local do
+  @moduledoc """
+  Expose a local directory as a release repository.
+  """
   @behaviour AutoUpdater.Storage
 
   @impl AutoUpdater.Storage
-  def desired_version() do
+  def desired_version do
     release_version_path = Path.join(config()[:prefix_dir], config()[:release_version_file])
 
     with {:ok, body} <- File.read(release_version_path) do

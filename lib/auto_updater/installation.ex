@@ -1,5 +1,8 @@
 defmodule AutoUpdater.Installation do
-  def current_version() do
+  @moduledoc """
+  Provides access to the currently installed application.
+  """
+  def current_version do
     case File.read(Path.join(install_dir(), "version.txt")) do
       {:ok, content} -> {:ok, String.trim(content)}
       {:error, _} -> nil
@@ -10,7 +13,7 @@ defmodule AutoUpdater.Installation do
     File.write(Path.join(install_dir(), "version.txt"), version)
   end
 
-  def install_dir() do
+  def install_dir do
     app_dir = Application.app_dir(config(:otp_app))
     Path.expand("../..", app_dir)
   end
