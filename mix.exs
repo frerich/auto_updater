@@ -20,7 +20,8 @@ defmodule AutoUpdater.MixProject do
 
   defp deps do
     [
-      {:req, "~> 0.5.0"}
+      {:req, "~> 0.5.0"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 end
