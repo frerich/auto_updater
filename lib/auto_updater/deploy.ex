@@ -4,6 +4,8 @@ defmodule AutoUpdater.Deploy do
   """
   require Logger
 
+  alias AutoUpdater.Temp
+
   def deploy(desired_version) do
     Logger.debug("Starting to deploy version #{desired_version}.")
 
@@ -18,7 +20,7 @@ defmodule AutoUpdater.Deploy do
   end
 
   def unpack(pkg_path) when is_binary(pkg_path) do
-    temp_dir = Path.join(System.tmp_dir!(), "autoupdater-#{Enum.random(0..(2 ** 64))}")
+    temp_dir = Temp.path!(prefix: "autoupdater")
     Logger.debug("Unpacking #{pkg_path} to #{temp_dir}")
 
     with :ok <- File.mkdir(temp_dir),

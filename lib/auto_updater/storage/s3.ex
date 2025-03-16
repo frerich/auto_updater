@@ -4,6 +4,8 @@ defmodule AutoUpdater.Storage.S3 do
   """
   @behaviour AutoUpdater.Storage
 
+  alias AutoUpdater.Temp
+
   @impl AutoUpdater.Storage
   def desired_version do
     with {:ok, body} <- request(url: config()[:release_version_file]) do
@@ -13,7 +15,7 @@ defmodule AutoUpdater.Storage.S3 do
 
   @impl AutoUpdater.Storage
   def download_release(version) when is_binary(version) do
-    local_path = temp_path!(Path.basename(version))
+    local_path = Temp.path!(prefix: Path.basename(version))
 
     with {:ok, _} <- request(url: version, into: File.stream!(local_path)) do
       {:ok, local_path}
@@ -41,9 +43,5 @@ defmodule AutoUpdater.Storage.S3 do
   def config do
     defaults = [region: "eu-central-1"]
     Keyword.merge(defaults, Application.fetch_env!(:auto_updater, __MODULE__))
-  end
-
-  def temp_path!(suffix) when is_binary(suffix) do
-    Path.join(System.tmp_dir!(), "#{Enum.random(0..(2 ** 64))}-#{suffix}")
   end
 end

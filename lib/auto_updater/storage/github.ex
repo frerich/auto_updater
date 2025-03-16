@@ -4,6 +4,8 @@ defmodule AutoUpdater.Storage.GitHub do
   """
   @behaviour AutoUpdater.Storage
 
+  alias AutoUpdater.Temp
+
   @impl AutoUpdater.Storage
   def desired_version do
     with {:ok, body} <- request(url: "/releases/latest") do
@@ -27,7 +29,7 @@ defmodule AutoUpdater.Storage.GitHub do
   def download_asset(url) when is_binary(url) do
     url = URI.parse(url)
 
-    local_path = temp_path!(Path.basename(url.path))
+    local_path = Temp.path!(prefix: Path.basename(url.path))
 
     with {:ok, _body} <- request(url: url, into: File.stream!(local_path)) do
       {:ok, local_path}
@@ -62,9 +64,5 @@ defmodule AutoUpdater.Storage.GitHub do
 
   def config do
     Application.fetch_env!(:auto_updater, __MODULE__)
-  end
-
-  def temp_path!(suffix) when is_binary(suffix) do
-    Path.join(System.tmp_dir!(), "#{Enum.random(0..(2 ** 64))}-#{suffix}")
   end
 end
