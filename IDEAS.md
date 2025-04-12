@@ -1,3 +1,6 @@
 * Don't store version in 'version.txt' file but use version as available in
   `Application.spec(:app)[:vsn]`; requires maintaining that version in mix.exs
   but avoids having to write out a file.
+* Optionally verify digital signatures of downloaded releases.
+* Permit specifying callback to be invoked before restarting (e.g. for draining connections).
+* Strategies for doing rolling/incremental updates of multiple instances.
