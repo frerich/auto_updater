@@ -4,7 +4,7 @@ defmodule AutoUpdater.Temp do
   """
 
   def path!(opts \\ []) do
-    opts = Keyword.validate!(opts, :prefix)
+    opts = Keyword.validate!(opts, [:prefix])
 
     path =
       case opts[:prefix] do
