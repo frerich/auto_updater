@@ -19,10 +19,16 @@ defmodule AutoUpdater.MixProject do
   end
 
   def application do
-    [
-      extra_applications: [:logger],
-      mod: {AutoUpdater.Application, {}}
-    ]
+    case Mix.env() do
+      :test ->
+        []
+
+      _ ->
+        [
+          extra_applications: [:logger],
+          mod: {AutoUpdater.Application, {}}
+        ]
+    end
   end
 
   defp deps do
