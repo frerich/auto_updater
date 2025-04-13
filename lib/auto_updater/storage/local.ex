@@ -26,6 +26,6 @@ defmodule AutoUpdater.Storage.Local do
   end
 
   def config do
-    Application.fetch_env!(:auto_updater, __MODULE__)
+    Application.fetch_env!(:auto_updater, :storage_config)
   end
 end

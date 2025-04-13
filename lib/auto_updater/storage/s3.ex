@@ -42,6 +42,6 @@ defmodule AutoUpdater.Storage.S3 do
 
   def config do
     defaults = [region: "eu-central-1"]
-    Keyword.merge(defaults, Application.fetch_env!(:auto_updater, __MODULE__))
+    Keyword.merge(defaults, Application.fetch_env!(:auto_updater, :storage_config))
   end
 end
