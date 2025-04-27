@@ -1,5 +1,5 @@
 defmodule AutoUpdater.Storage.S3Test do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias AutoUpdater.Storage.S3
   alias Plug.Conn

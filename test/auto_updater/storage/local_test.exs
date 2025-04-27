@@ -1,5 +1,5 @@
 defmodule AutoUpdater.Storage.LocalTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias AutoUpdater.Storage.Local
 
