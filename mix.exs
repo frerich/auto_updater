@@ -35,6 +35,7 @@ defmodule AutoUpdater.MixProject do
     [
       {:jason, "~> 1.4"},
       {:req, "~> 0.5.0"},
+      {:plug, "~> 1.0", only: [:test]},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
