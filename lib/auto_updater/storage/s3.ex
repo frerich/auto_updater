@@ -30,6 +30,7 @@ defmodule AutoUpdater.Storage.S3 do
       retry: :transient
     )
     |> Req.merge(opts)
+    |> Req.merge(Application.get_env(:auto_updater, :req_test_options, []))
   end
 
   def request(opts \\ []) when is_list(opts) do
